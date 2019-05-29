@@ -2,9 +2,16 @@
   <main class="main">
     <panel class="main__panel">
       <template slot="header">欲しい</template>
+      <div slot="body">
+        <card></card>
+        <card></card>
+      </div>
     </panel>
     <panel class="main__panel">
       <template slot="header">買う</template>
+      <div slot="body">
+        <card></card>
+      </div>
     </panel>
     <panel class="main__panel">
       <template slot="header">買った</template>
@@ -17,10 +24,12 @@
 
 <script>
 import Panel from "./Panel";
+import Card from "./Card";
 
 export default {
   components: {
-    Panel
+    Panel,
+    Card
   }
 };
 </script>

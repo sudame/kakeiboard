@@ -9,7 +9,7 @@
           <i class="fas fa-plus-circle"></i>
         </div>
       </div>
-      <div class="panel-child panle__body">
+      <div class="panel-child panel__body">
         <slot name="body"></slot>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="panel-base">
+  <div class="card">
     <slot></slot>
   </div>
 </template>
@@ -9,12 +9,15 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-.panel-base {
-  background-color: $background-light;
+.card {
+  border-radius: 5px;
   @include elevation();
+  background-color: $white;
+  width: 100%;
+  min-width: 50px;
 
-  & .panel-child {
-    padding: 6px 12px;
+  & .card-element {
+    padding: 3px 12px;
   }
 }
 </style>
