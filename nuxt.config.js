@@ -14,7 +14,8 @@ export default {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.8.2/css/all.css' }
     ]
   },
 
@@ -26,8 +27,7 @@ export default {
   /*
   ** Global CSS
   */
-  css: [
-  ],
+  css: [],
 
   /*
   ** Plugins to load before mounting the App
@@ -39,8 +39,13 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/style-resources',
   ],
 
+  styleResources: {
+    // your settings here
+    scss: ['./assets/sass/*.scss'], // alternative: scss
+  },
   /*
   ** Build configuration
   */

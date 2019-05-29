@@ -1,0 +1,14 @@
+/* colors */
+$white: #FFFFFF;
+$black-1: #232323;
+$black-2: #191919;
+$black-3: #000000;
+$corp-1: #7D9FCB;
+$corp-2: #4575B4;
+$background-light: #F3F3F3;
+$background: #D2D2D2;
+
+/* elevation */
+@mixin elevation() {
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+}
