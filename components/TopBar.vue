@@ -14,14 +14,17 @@
   </div>
 </template>
 
-<script>
-import TopBarBase from "./bases/TopBarBase";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 
-export default {
+import TopBarBase from "./bases/TopBarBase.vue";
+
+@Component({
   components: {
     TopBarBase
   }
-};
+})
+export default class TopBar extends Vue {}
 </script>
 
 <style lang="scss" scoped>

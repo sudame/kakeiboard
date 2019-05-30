@@ -9,16 +9,22 @@
   </card-base>
 </template>
 
-<script>
-import CardHeader from "./bases/CardHeader";
-import CardBase from "./bases/CardBase";
-export default {
-  props: ["item"],
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
+import { Item } from "~/store/items";
+
+import CardHeader from "./bases/CardHeader.vue";
+import CardBase from "./bases/CardBase.vue";
+
+@Component({
   components: {
     CardBase,
     CardHeader
   }
-};
+})
+export default class Card extends Vue {
+  @Prop(undefined) readonly item!: Item;
+}
 </script>
 
 <style lang="scss" scoped>

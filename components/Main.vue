@@ -31,15 +31,15 @@
           <tbody>
             <tr>
               <td>欲しいもの合計:</td>
-              <td>{{ wantPrice }}円</td>
+              <td>{{ prices.want }}円</td>
             </tr>
             <tr>
               <td>買うもの合計:</td>
-              <td>{{ willPrice }}円</td>
+              <td>{{ prices.will }}円</td>
             </tr>
             <tr>
               <td>買ったもの合計:</td>
-              <td>{{ donePrice }}円</td>
+              <td>{{ prices.done }}円</td>
             </tr>
           </tbody>
         </table>
@@ -48,54 +48,55 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { getModule } from "vuex-module-decorators";
+
+import ItemsModule, { Item, Prices } from "~/store/items";
+
 import Draggable from "vuedraggable";
 
-import Panel from "./Panel";
-import Card from "./Card";
+import Panel from "./Panel.vue";
+import Card from "./Card.vue";
 
-export default {
+@Component({
   components: {
     Draggable,
     Panel,
     Card
-  },
-  computed: {
-    want: {
-      get() {
-        return this.$store.state.items.want;
-      },
-      set(value) {
-        this.$store.commit("items/update", { name: "want", items: value });
-      }
-    },
-    will: {
-      get() {
-        return this.$store.state.items.will;
-      },
-      set(value) {
-        this.$store.commit("items/update", { name: "will", items: value });
-      }
-    },
-    done: {
-      get() {
-        return this.$store.state.items.done;
-      },
-      set(value) {
-        this.$store.commit("items/update", { name: "done", items: value });
-      }
-    },
-    wantPrice() {
-      return this.$store.getters["items/getPrice"]("want");
-    },
-    willPrice() {
-      return this.$store.getters["items/getPrice"]("will");
-    },
-    donePrice() {
-      return this.$store.getters["items/getPrice"]("done");
-    }
   }
-};
+})
+export default class Main extends Vue {
+  itemsStore = getModule(ItemsModule, this.$store);
+
+  get want(): Array<Item> {
+    return this.itemsStore.want;
+  }
+
+  set want(value: Array<Item>) {
+    this.itemsStore.update({ name: "want", items: value });
+  }
+
+  get will(): Array<Item> {
+    return this.itemsStore.will;
+  }
+
+  set will(value: Array<Item>) {
+    this.itemsStore.update({ name: "will", items: value });
+  }
+
+  get done(): Array<Item> {
+    return this.itemsStore.done;
+  }
+
+  set done(value: Array<Item>) {
+    this.itemsStore.update({ name: "done", items: value });
+  }
+
+  get prices(): Prices {
+    return this.itemsStore.prices;
+  }
+}
 </script>
 
 <style lang="scss" scoped>

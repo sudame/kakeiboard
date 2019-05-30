@@ -13,18 +13,21 @@
   </div>
 </template>
 
-<script>
-import TopBar from "../components/TopBar";
-import MyButton from "../components/Button";
-import MainPanel from "../components/Main";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 
-export default {
+import TopBar from "../components/TopBar.vue";
+import MyButton from "../components/Button.vue";
+import MainPanel from "../components/Main.vue";
+
+@Component({
   components: {
     TopBar,
     MyButton,
     MainPanel
   }
-};
+})
+export default class Index extends Vue {}
 </script>
 
 <style lang="scss" scoped>

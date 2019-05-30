@@ -10,13 +10,15 @@
 </template>
 
 <script>
+import { Component, Vue } from "vue-property-decorator";
 import ButtonBase from "./bases/ButtonBase";
 
-export default {
+@Component({
   components: {
     ButtonBase
   }
-};
+})
+export default class KButton extends Vue {}
 </script>
 
 <style lang="scss" scoped>

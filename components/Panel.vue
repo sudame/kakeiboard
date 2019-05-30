@@ -16,14 +16,17 @@
   </panel-base>
 </template>
 
-<script>
-import PanelBase from "./bases/PanelBase";
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 
-export default {
+import PanelBase from "./bases/PanelBase.vue";
+
+@Component({
   components: {
     PanelBase
   }
-};
+})
+export default class Panel extends Vue {}
 </script>
 
 <style lang="scss" scoped>
