@@ -26,6 +26,24 @@
     </panel>
     <panel class="main__panel">
       <template slot="header">統計</template>
+      <div slot="body">
+        <table>
+          <tbody>
+            <tr>
+              <td>欲しいもの合計:</td>
+              <td>{{ wantPrice }}円</td>
+            </tr>
+            <tr>
+              <td>買うもの合計:</td>
+              <td>{{ willPrice }}円</td>
+            </tr>
+            <tr>
+              <td>買ったもの合計:</td>
+              <td>{{ donePrice }}円</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </panel>
   </main>
 </template>
@@ -42,29 +60,40 @@ export default {
     Panel,
     Card
   },
-  data() {
-    return {
-      want: [
-        {
-          id: 1,
-          title: "title",
-          price: 1000
-        },
-        {
-          id: 2,
-          title: "title2",
-          price: 2000
-        }
-      ],
-      will: [
-        {
-          id: 3,
-          title: "title3",
-          price: 3000
-        }
-      ],
-      done: []
-    };
+  computed: {
+    want: {
+      get() {
+        return this.$store.state.items.want;
+      },
+      set(value) {
+        this.$store.commit("items/update", { name: "want", items: value });
+      }
+    },
+    will: {
+      get() {
+        return this.$store.state.items.will;
+      },
+      set(value) {
+        this.$store.commit("items/update", { name: "will", items: value });
+      }
+    },
+    done: {
+      get() {
+        return this.$store.state.items.done;
+      },
+      set(value) {
+        this.$store.commit("items/update", { name: "done", items: value });
+      }
+    },
+    wantPrice() {
+      return this.$store.getters["items/getPrice"]("want");
+    },
+    willPrice() {
+      return this.$store.getters["items/getPrice"]("will");
+    },
+    donePrice() {
+      return this.$store.getters["items/getPrice"]("done");
+    }
   }
 };
 </script>
