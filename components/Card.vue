@@ -2,9 +2,9 @@
   <card-base class="card">
     <div class="card__container">
       <card-header class="card-element">
-        <template>kakeiboard</template>
+        <template>{{ item.title }}</template>
       </card-header>
-      <div class="card__body"></div>
+      <div class="card__body">{{ item.price }}円</div>
     </div>
   </card-base>
 </template>
@@ -13,6 +13,7 @@
 import CardHeader from "./bases/CardHeader";
 import CardBase from "./bases/CardBase";
 export default {
+  props: ["item"],
   components: {
     CardBase,
     CardHeader
@@ -27,5 +28,6 @@ export default {
 
 .card__body {
   min-height: 5rem;
+  padding: 6px;
 }
 </style>
