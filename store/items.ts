@@ -1,9 +1,14 @@
-import { Module, VuexModule, Mutation } from "vuex-module-decorators";
+import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 
+
+export enum ItemState {
+  WANT, WILL, DONE,
+}
 export interface Item {
   id: number;
   title: string;
   price: number;
+  state: ItemState;
 }
 
 export interface Prices {
@@ -18,19 +23,22 @@ export default class ItemsStore extends VuexModule {
     {
       id: 1,
       title: "title",
-      price: 1000
+      price: 1000,
+      state: ItemState.WANT
     },
     {
       id: 2,
       title: "title2",
-      price: 2000
+      price: 2000,
+      state: ItemState.WANT
     }
   ];
   will: Array<Item> = [
     {
       id: 3,
       title: "title3",
-      price: 3000
+      price: 3000,
+      state: ItemState.WILL
     }
   ];
   done: Array<Item> = [];
@@ -38,6 +46,28 @@ export default class ItemsStore extends VuexModule {
   @Mutation
   update({ name, items }: { name: string, items: Array<Item> }) {
     this[name] = items;
+  }
+
+  @Mutation
+  editMutation({ target, item }: { target: Item, item: Item }) {
+    target = item;
+  }
+
+  @Action({
+    commit: 'editMutation'
+  })
+  editItem(item: Item) {
+    let target: Item | undefined;
+    target = this.will.filter(item => item.id == item.id)[0];
+    if (typeof target == undefined) target = this.want.filter(item => item.id == item.id)[0];
+    if (typeof target == undefined) target = this.done.filter(item => item.id == item.id)[0];
+    if (typeof target == undefined) throw Error('cannot find item.');
+    else {
+      return {
+        target,
+        item,
+      }
+    }
   }
 
   get prices(): Prices {

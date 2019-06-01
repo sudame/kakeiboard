@@ -1,16 +1,29 @@
 <template>
   <div class="card-header">
-    <h3>
-      <slot></slot>
-    </h3>
+    <div class="header">
+      <h3>
+        <slot></slot>
+      </h3>
+      <div class="space"></div>
+      <div @click="edit()">
+        <i class="fas fa-pen"></i>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 
 @Component
-export default class CardHeader extends Vue {}
+export default class CardHeader extends Vue {
+  @Prop(Number) readonly itemId!: number;
+
+  @Emit("item-edit")
+  edit() {
+    return;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -20,9 +33,20 @@ export default class CardHeader extends Vue {}
   color: $white;
 }
 
-h3 {
+div.header {
   font-size: 14px;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: row;
+
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  .space {
+    flex: 1;
+  }
 }
 </style>

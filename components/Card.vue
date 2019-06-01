@@ -1,7 +1,7 @@
 <template>
   <card-base class="card">
     <div class="card__container">
-      <card-header class="card-element">
+      <card-header class="card-element" :itemId="item.id" @item-edit="itemEdit">
         <template>{{ item.title }}</template>
       </card-header>
       <div class="card__body">{{ item.price }}円</div>
@@ -15,6 +15,7 @@ import { Item } from "~/store/items";
 
 import CardHeader from "./bases/CardHeader.vue";
 import CardBase from "./bases/CardBase.vue";
+import { Action } from "vuex-module-decorators";
 
 @Component({
   components: {
@@ -24,6 +25,11 @@ import CardBase from "./bases/CardBase.vue";
 })
 export default class Card extends Vue {
   @Prop(undefined) readonly item!: Item;
+
+  @Action
+  itemEdit() {
+    console.log("edit!");
+  }
 }
 </script>
 
