@@ -52,7 +52,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 
-import ItemsModule, { Item, Prices } from "~/store/items";
+import ItemsModule, { Item, Prices, ItemState } from "~/store/items";
 
 import Draggable from "vuedraggable";
 
@@ -70,27 +70,27 @@ export default class Main extends Vue {
   itemsStore = getModule(ItemsModule, this.$store);
 
   get want(): Array<Item> {
-    return this.itemsStore.want;
+    return this.itemsStore[ItemState.WANT];
   }
 
   set want(value: Array<Item>) {
-    this.itemsStore.update({ name: "want", items: value });
+    this.itemsStore.update({ state: ItemState.WANT, items: value });
   }
 
   get will(): Array<Item> {
-    return this.itemsStore.will;
+    return this.itemsStore[ItemState.WILL];
   }
 
   set will(value: Array<Item>) {
-    this.itemsStore.update({ name: "will", items: value });
+    this.itemsStore.update({ state: ItemState.WILL, items: value });
   }
 
   get done(): Array<Item> {
-    return this.itemsStore.done;
+    return this.itemsStore[ItemState.DONE];
   }
 
   set done(value: Array<Item>) {
-    this.itemsStore.update({ name: "done", items: value });
+    this.itemsStore.update({ state: ItemState.DONE, items: value });
   }
 
   get prices(): Prices {
