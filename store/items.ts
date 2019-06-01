@@ -19,7 +19,7 @@ export interface Prices {
 
 @Module({ name: 'items', stateFactory: true, namespaced: true })
 export default class ItemsStore extends VuexModule {
-  want: Array<Item> = [
+  items: Array<Item> = [
     {
       id: 1,
       title: "title",
@@ -31,9 +31,7 @@ export default class ItemsStore extends VuexModule {
       title: "title2",
       price: 2000,
       state: ItemState.WANT
-    }
-  ];
-  will: Array<Item> = [
+    },
     {
       id: 3,
       title: "title3",
@@ -41,7 +39,6 @@ export default class ItemsStore extends VuexModule {
       state: ItemState.WILL
     }
   ];
-  done: Array<Item> = [];
 
   @Mutation
   update({ name, items }: { name: string, items: Array<Item> }) {
@@ -51,6 +48,12 @@ export default class ItemsStore extends VuexModule {
   @Mutation
   editMutation({ target, item }: { target: Item, item: Item }) {
     target = item;
+  }
+
+  @Mutation
+  updateState({ target, state }: { target: Item, state: ItemState }) {
+    console.log(target, state);
+    this.items.filter(item => item.id === target.id)[0].state = state;
   }
 
   @Action({
@@ -70,8 +73,19 @@ export default class ItemsStore extends VuexModule {
     }
   }
 
-  get prices(): Prices {
+  get want(): Array<Item> {
+    return this.items.filter(item => item.state === ItemState.WANT);
+  }
 
+  get will(): Array<Item> {
+    return this.items.filter(item => item.state === ItemState.WILL);
+  }
+
+  get done(): Array<Item> {
+    return this.items.filter(item => item.state === ItemState.DONE);
+  }
+
+  get prices(): Prices {
     // getterからクラスインスタンスのメソッドにアクセスできない
     // おそらくvuex-module-decorators依存のバグだと思うが……
     function _getPrice(items: Array<Item>): number {

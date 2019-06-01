@@ -3,7 +3,7 @@
     <panel class="main__panel">
       <template slot="header">欲しい</template>
       <div slot="body">
-        <draggable v-model="want" group="items">
+        <draggable v-model="want" group="items" @change="changed($event, 'want')">
           <card v-for="item in want" :key="item.id" :item="item"></card>
         </draggable>
       </div>
@@ -11,7 +11,7 @@
     <panel class="main__panel">
       <template slot="header">買う</template>
       <div slot="body">
-        <draggable v-model="will" group="items">
+        <draggable v-model="will" group="items" @change="changed($event, 'will')">
           <card v-for="item in will" :key="item.id" :item="item"></card>
         </draggable>
       </div>
@@ -19,7 +19,7 @@
     <panel class="main__panel">
       <template slot="header">買った</template>
       <div slot="body">
-        <draggable v-model="done" group="items">
+        <draggable v-model="done" group="items" @change="changed($event, 'done')">
           <card v-for="item in done" :key="item.id" :item="item"></card>
         </draggable>
       </div>
@@ -52,7 +52,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 
-import ItemsModule, { Item, Prices } from "~/store/items";
+import ItemsModule, { Item, Prices, ItemState } from "~/store/items";
 
 import Draggable from "vuedraggable";
 
@@ -73,28 +73,43 @@ export default class Main extends Vue {
     return this.itemsStore.want;
   }
 
-  set want(value: Array<Item>) {
-    this.itemsStore.update({ name: "want", items: value });
-  }
-
   get will(): Array<Item> {
     return this.itemsStore.will;
-  }
-
-  set will(value: Array<Item>) {
-    this.itemsStore.update({ name: "will", items: value });
   }
 
   get done(): Array<Item> {
     return this.itemsStore.done;
   }
 
-  set done(value: Array<Item>) {
-    this.itemsStore.update({ name: "done", items: value });
-  }
-
   get prices(): Prices {
     return this.itemsStore.prices;
+  }
+
+  // changeイベントをlistenしてstoreにmutationを飛ばす
+  changed(e, newState: string) {
+    const conv = {
+      want: ItemState.WANT,
+      will: ItemState.WILL,
+      done: ItemState.DONE
+    };
+
+    if (e.added !== undefined) {
+      this.itemsStore.updateState({
+        target: e.added.element,
+        state: conv[newState]
+      });
+    }
+  }
+
+  // setterでは何もしない
+  set want(v) {
+    return;
+  }
+  set will(v) {
+    return;
+  }
+  set done(v) {
+    return;
   }
 }
 </script>
