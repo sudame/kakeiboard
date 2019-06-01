@@ -1,6 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 
-
 export enum ItemState {
   WANT, WILL, DONE,
 }
@@ -65,6 +64,19 @@ export default class ItemsStore extends VuexModule {
     this[item.state] = newItems;
   }
 
+  @Mutation
+  addItem(item: Item) {
+    this[item.state] = this[item.state].concat(item);
+  }
+
+  @Mutation
+  deleteItem(target: Item) {
+    const idx: number = this[target.state].findIndex(item => item.id === target.id);
+    const temp: Item[] = [...this[target.state]];
+    temp.splice(idx, 1);
+    this[target.state] = [...temp];
+  }
+
   get prices(): Prices {
 
     // getterからクラスインスタンスのメソッドにアクセスできない
@@ -82,5 +94,14 @@ export default class ItemsStore extends VuexModule {
       will: _getPrice(this[ItemState.WILL]),
       done: _getPrice(this[ItemState.DONE]),
     }
+  }
+
+  get nextID(): number {
+    const items = this[ItemState.WANT].concat(this[ItemState.WILL]).concat(this[ItemState.DONE]);
+    let max: number = -1;
+    items.forEach(item => {
+      if (item.id > max) max = item.id;
+    });
+    return max + 1;
   }
 }

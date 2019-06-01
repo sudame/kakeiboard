@@ -1,7 +1,14 @@
 <template>
-  <div id="editor">
+  <div id="editor" @keydown.esc="close">
     <div class="editor__panel">
-      <h3>編集</h3>
+      <div class="editor__header">
+        <h3 v-if="isNew">新規({{ itemStore.nextID }})</h3>
+        <h3 v-else>編集</h3>
+        <div class="spacer"></div>
+        <div class="editor__header__icon close" @click="close">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
       <div class="field">
         <label for="title" class="label">品目</label>
         <input type="text" name="title" id="title" class="input text" v-model="title">
@@ -11,7 +18,11 @@
         <input type="number" name="price" id="price" class="input text" v-model="price">
       </div>
       <div class="field right">
-        <button class="input button" @click="submitItem">更新</button>
+        <button v-if="isNew" class="input button" @click="addItem">作成</button>
+        <div class="buttons" v-else>
+          <button class="input button danger" @click="deleteItem">削除</button>
+          <button class="input button" @click="editItem">更新</button>
+        </div>
       </div>
     </div>
   </div>
@@ -36,13 +47,36 @@ export default class Editor extends Vue {
     return this.editorStore.editingItem;
   }
 
-  submitItem() {
+  get isNew(): boolean {
+    return this.editorStore.isNewItem;
+  }
+
+  editItem() {
     this.itemStore.editItem({
       id: this.item.id,
       title: this.title,
       price: new Number(this.price) as number,
       state: this.item.state
     });
+    this.editorStore.toggleEditing();
+  }
+
+  addItem() {
+    this.itemStore.addItem({
+      id: this.itemStore.nextID,
+      title: this.title,
+      price: new Number(this.price) as number,
+      state: this.item.state
+    });
+    this.editorStore.toggleEditing();
+  }
+
+  deleteItem() {
+    this.itemStore.deleteItem(this.item);
+    this.editorStore.toggleEditing();
+  }
+
+  close() {
     this.editorStore.toggleEditing();
   }
 }
@@ -71,6 +105,22 @@ export default class Editor extends Vue {
       margin: 0;
     }
   }
+
+  .editor__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .editor__header__icon {
+      font-size: 20px;
+      color: $black-1;
+    }
+
+    .spacer {
+      flex: 1;
+    }
+  }
 }
 
 .field {
@@ -92,6 +142,19 @@ export default class Editor extends Vue {
     font-size: 14px;
   }
 
+  .buttons {
+    display: flex;
+    flex-direction: row;
+
+    .button {
+      margin-right: 12px;
+    }
+
+    .button:last-child {
+      margin-right: 0;
+    }
+  }
+
   .input.button {
     display: block;
     padding: 6px 12px;
@@ -102,6 +165,10 @@ export default class Editor extends Vue {
     text-indent: 1.5px;
     letter-spacing: 3px;
     border-radius: 5px;
+  }
+
+  .input.button.danger {
+    background-color: $red;
   }
 
   &.right {

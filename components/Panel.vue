@@ -5,7 +5,7 @@
         <h2>
           <slot name="header"></slot>
         </h2>
-        <div class="panel__header__icon">
+        <div class="panel__header__icon" @click="clicked">
           <i class="fas fa-plus-circle"></i>
         </div>
       </div>
@@ -17,16 +17,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Emit } from "vue-property-decorator";
+import { getModule } from "vuex-module-decorators";
 
 import PanelBase from "./bases/PanelBase.vue";
+import EditorModule from "~/store/editor";
 
 @Component({
   components: {
     PanelBase
   }
 })
-export default class Panel extends Vue {}
+export default class Panel extends Vue {
+  private editorStore = getModule(EditorModule, this.$store);
+
+  @Emit("add-item")
+  clicked(): void {
+    return;
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 <template>
   <main class="main">
-    <panel class="main__panel">
+    <panel class="main__panel" @add-item="addItem(0)">
       <template slot="header">欲しい</template>
       <div slot="body">
         <draggable v-model="want" group="items">
@@ -8,7 +8,7 @@
         </draggable>
       </div>
     </panel>
-    <panel class="main__panel">
+    <panel class="main__panel" @add-item="addItem(1)">
       <template slot="header">買う</template>
       <div slot="body">
         <draggable v-model="will" group="items">
@@ -16,7 +16,7 @@
         </draggable>
       </div>
     </panel>
-    <panel class="main__panel">
+    <panel class="main__panel" @add-item="addItem(2)">
       <template slot="header">買った</template>
       <div slot="body">
         <draggable v-model="done" group="items">
@@ -53,6 +53,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 
 import ItemsModule, { Item, Prices, ItemState } from "~/store/items";
+import editorModule from "~/store/editor";
 
 import Draggable from "vuedraggable";
 
@@ -67,34 +68,42 @@ import Card from "./Card.vue";
   }
 })
 export default class Main extends Vue {
-  itemsStore = getModule(ItemsModule, this.$store);
+  private itemStore = getModule(ItemsModule, this.$store);
+  private editorStore = getModule(editorModule, this.$store);
+
+  addItem(state: ItemState) {
+    this.editorStore.resetEditingItem();
+    this.editorStore.setIsNewItem(true);
+    this.editorStore.setItemState(state);
+    this.editorStore.toggleEditing();
+  }
 
   get want(): Array<Item> {
-    return this.itemsStore[ItemState.WANT];
+    return this.itemStore[ItemState.WANT];
   }
 
   set want(value: Array<Item>) {
-    this.itemsStore.update({ state: ItemState.WANT, items: value });
+    this.itemStore.update({ state: ItemState.WANT, items: value });
   }
 
   get will(): Array<Item> {
-    return this.itemsStore[ItemState.WILL];
+    return this.itemStore[ItemState.WILL];
   }
 
   set will(value: Array<Item>) {
-    this.itemsStore.update({ state: ItemState.WILL, items: value });
+    this.itemStore.update({ state: ItemState.WILL, items: value });
   }
 
   get done(): Array<Item> {
-    return this.itemsStore[ItemState.DONE];
+    return this.itemStore[ItemState.DONE];
   }
 
   set done(value: Array<Item>) {
-    this.itemsStore.update({ state: ItemState.DONE, items: value });
+    this.itemStore.update({ state: ItemState.DONE, items: value });
   }
 
   get prices(): Prices {
-    return this.itemsStore.prices;
+    return this.itemStore.prices;
   }
 }
 </script>

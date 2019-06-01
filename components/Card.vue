@@ -32,6 +32,7 @@ export default class Card extends Vue {
   @Prop(undefined) readonly item!: Item;
 
   itemEdit() {
+    this.editorStore.setIsNewItem(false);
     this.editorStore.setEditingItem(this.item);
     this.editorStore.toggleEditing();
   }
