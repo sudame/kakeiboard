@@ -46,6 +46,6 @@ export default class Card extends Vue {
 
 .card__body {
   min-height: 5rem;
-  padding: 6px;
+  padding: 12px;
 }
 </style>

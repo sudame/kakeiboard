@@ -20,7 +20,7 @@ export default class CardBase extends Vue {}
   min-width: 50px;
 
   & .card-element {
-    padding: 3px 12px;
+    padding: 12px;
   }
 }
 </style>
