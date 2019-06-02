@@ -1,7 +1,7 @@
 {
   "name": "kakeiboard",
   "version": "1.0.0",
-  "description": "My first-rate Nuxt.js project",
+  "description": "Let's take your kakeibo with KANBAN management!",
   "author": "Mikihiro SUDA",
   "private": true,
   "scripts": {
