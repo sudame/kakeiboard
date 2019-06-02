@@ -34,7 +34,6 @@ export default {
   */
   plugins: [
     '~/plugins/user.client.ts',
-    { src: '~/plugins/localStorage.js', ssr: false }
   ],
 
   /*

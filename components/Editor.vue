@@ -55,7 +55,7 @@ export default class Editor extends Vue {
     this.itemStore.editItem({
       id: this.item.id,
       title: this.title,
-      price: new Number(this.price) as number,
+      price: this.price,
       state: this.item.state
     });
     this.editorStore.toggleEditing();
@@ -65,7 +65,7 @@ export default class Editor extends Vue {
     this.itemStore.addItem({
       id: this.itemStore.nextID,
       title: this.title,
-      price: new Number(this.price) as number,
+      price: this.price,
       state: this.item.state
     });
     this.editorStore.toggleEditing();

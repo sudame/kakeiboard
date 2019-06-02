@@ -1,6 +1,8 @@
 import { Store } from 'vuex';
 import { getModule } from 'vuex-module-decorators';
 
+import listener from '~/plugins/firestore';
+
 import firebase from '~/plugins/firebase';
 import userModule, { User } from '~/store/user';
 import itemModule from '~/store/items';
@@ -18,6 +20,7 @@ export default ({ store }: { store: Store<any> }) => {
         user.email || '',
       ));
       itemStore.setUID(user.uid);
+      listener(store, user.uid);
     }
     else {
       userStore.setUser(null);

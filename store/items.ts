@@ -1,4 +1,7 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
+import firebase from '~/plugins/firebase';
+
+const db = firebase.firestore().collection('items');
 
 export enum ItemState {
   WANT, WILL, DONE,
@@ -18,39 +21,25 @@ export interface Prices {
 
 @Module({ name: 'items', stateFactory: true, namespaced: true })
 export default class ItemsStore extends VuexModule {
-  [ItemState.WANT]: Array<Item> = [
-    {
-      id: 1,
-      title: "title",
-      price: 1000,
-      state: ItemState.WANT
-    },
-    {
-      id: 2,
-      title: "title2",
-      price: 2000,
-      state: ItemState.WANT
-    }
-  ];
-  [ItemState.WILL]: Array<Item> = [
-    {
-      id: 3,
-      title: "title3",
-      price: 3000,
-      state: ItemState.WILL
-    }
-  ];
+  [ItemState.WANT]: Array<Item> = [];
+  [ItemState.WILL]: Array<Item> = [];
   [ItemState.DONE]: Array<Item> = [];
+
+  private uid: string | null = null;
 
   @Mutation
   update({ state, items }: { state: ItemState, items: Array<Item> }) {
     items.forEach(item => item.state = state);
-    this[state] = items;
+    if (this.uid !== null) {
+      db.doc(this.uid as string).update({
+        [state]: items,
+      });
+    }
   }
 
   @Mutation
-  editMutation({ target, item }: { target: Item, item: Item }) {
-    target = item;
+  loadFromFirestore({ state, items }: { state: ItemState, items: Item[] }) {
+    this[state] = items;
   }
 
   @Mutation
@@ -58,15 +47,22 @@ export default class ItemsStore extends VuexModule {
     const targetIdx: number = this[item.state].findIndex(el => el.id == item.id);
     console.log(this[item.state][targetIdx]);
     if (targetIdx === -1) return;
-
     const newItems: Item[] = this[item.state].slice();
     newItems[targetIdx] = Object.assign({}, item);
-    this[item.state] = newItems;
+
+    console.log({
+      [item.state]: newItems
+    });
+    db.doc(this.uid as string).update({
+      [item.state]: newItems
+    });
   }
 
   @Mutation
   addItem(item: Item) {
-    this[item.state] = this[item.state].concat(item);
+    db.doc(this.uid as string).update({
+      [item.state]: this[item.state].concat(item),
+    });
   }
 
   @Mutation
@@ -74,7 +70,14 @@ export default class ItemsStore extends VuexModule {
     const idx: number = this[target.state].findIndex(item => item.id === target.id);
     const temp: Item[] = [...this[target.state]];
     temp.splice(idx, 1);
-    this[target.state] = [...temp];
+    db.doc(this.uid as string).update({
+      [target.state]: [...temp],
+    });
+  }
+
+  @Mutation
+  setUID(uid: string) {
+    this.uid = uid;
   }
 
   get prices(): Prices {
@@ -84,7 +87,7 @@ export default class ItemsStore extends VuexModule {
     function _getPrice(items: Array<Item>): number {
       let sum: number = 0;
       items.forEach(item => {
-        sum += item.price;
+        sum += new Number(item.price) as number;
       });
       return sum;
     }
