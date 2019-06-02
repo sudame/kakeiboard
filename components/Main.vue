@@ -24,25 +24,26 @@
         </draggable>
       </div>
     </panel>
-    <panel class="main__panel">
-      <template slot="header">統計</template>
-      <div slot="body">
-        <table>
-          <tbody>
-            <tr>
-              <td>欲しいもの合計:</td>
-              <td>{{ prices.want }}円</td>
-            </tr>
-            <tr>
-              <td>買うもの合計:</td>
-              <td>{{ prices.will }}円</td>
-            </tr>
-            <tr>
-              <td>買ったもの合計:</td>
-              <td>{{ prices.done }}円</td>
-            </tr>
-          </tbody>
-        </table>
+    <panel class="main__panel" summary>
+      <template slot="header">サマリー</template>
+      <div slot="body" class="summary-panel-content">
+        <div class="total-card">
+          <div class="total-card__title">欲しいもの</div>
+          <div class="total-card__price">{{ prices.want }}円</div>
+        </div>
+        <div class="total-card">
+          <div class="total-card__title">買うもの</div>
+          <div class="total-card__price">{{ prices.will }}円</div>
+        </div>
+        <div class="total-card">
+          <div class="total-card__title">買ったもの</div>
+          <div class="total-card__price">{{ prices.done }}円</div>
+        </div>
+        <div class="spacer"></div>
+        <div class="total-card all">
+          <div class="total-card__title">合計</div>
+          <div class="total-card__price">{{ prices.want + prices.will + prices.done }}円</div>
+        </div>
       </div>
     </panel>
   </main>
@@ -118,5 +119,44 @@ export default class Main extends Vue {
 
 .main__panel {
   width: calc(25% - 72px / 4);
+}
+
+.summary-panel-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .spacer {
+    flex: 1;
+  }
+
+  .total-card {
+    border-bottom: 1px solid $background;
+    padding: 12px 0;
+
+    &.all {
+      border-bottom: none;
+      border-top: 1px solid $background;
+
+      .total-card__title {
+        font-size: 24px;
+        font-weight: normal;
+      }
+
+      .total-card__price {
+        font-size: 48px;
+      }
+    }
+
+    .total-card__title {
+      font-size: 14px;
+      font-weight: bolder;
+    }
+
+    .total-card__price {
+      font-size: 30px;
+      text-align: right;
+    }
+  }
 }
 </style>

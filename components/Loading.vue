@@ -1,6 +1,6 @@
 <template>
   <div v-if="isReady" id="loading">
-    <h1>kakeiboard</h1>
+    <h1 class="logo">kakeiboard</h1>
     <h2>Loading...</h2>
     <div class="lds-roller">
       <div></div>
@@ -47,8 +47,8 @@ export default class Loading extends Vue {
 h1 {
   color: $white;
   padding: 0;
-  margin-bottom: 96px;
-  font-size: 64px;
+  margin-bottom: 60px;
+  font-size: 96px;
 }
 
 h2 {

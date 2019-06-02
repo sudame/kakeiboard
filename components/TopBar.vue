@@ -2,7 +2,7 @@
   <div>
     <top-bar-base>
       <div class="top-bar">
-        <h1>
+        <h1 class="logo">
           <slot name="label"></slot>
         </h1>
         <div class="space"></div>
@@ -32,7 +32,7 @@ h1 {
   padding: 0;
   margin: 0;
   color: $corp-2;
-  font-size: 25px;
+  font-size: 40px;
   line-height: 51px;
 }
 

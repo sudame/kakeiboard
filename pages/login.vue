@@ -1,7 +1,7 @@
 <template>
   <div id="login-page">
     <loading></loading>
-    <h1>kakeiboard</h1>
+    <h1 class="logo">kakeiboard</h1>
     <div class="login-panel">
       <div class="field">
         <label for="email" class="label">メールアドレス</label>
@@ -88,8 +88,9 @@ export default class Login extends Vue {
 
 h1 {
   color: $white;
-  margin: 24px auto;
+  margin: 12px auto;
   padding: 0;
+  font-size: 84px;
 }
 
 h2 {
