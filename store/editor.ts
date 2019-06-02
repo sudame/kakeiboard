@@ -10,7 +10,7 @@ export default class RootStore extends VuexModule {
     price: 0,
     timestamp: new Date(),
     state: ItemState.WANT,
-    title: '',
+    title: '新規項目',
   }
 
 
@@ -31,7 +31,7 @@ export default class RootStore extends VuexModule {
       price: 0,
       timestamp: new Date(),
       state: ItemState.WANT,
-      title: '',
+      title: '新規項目',
     });
   }
 

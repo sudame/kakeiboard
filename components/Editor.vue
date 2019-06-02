@@ -2,7 +2,7 @@
   <div id="editor" @keydown.esc="close">
     <div class="editor__panel">
       <div class="editor__header">
-        <h3 v-if="isNew">新規({{ itemStore.nextID }})</h3>
+        <h3 v-if="isNew">新規</h3>
         <h3 v-else>編集</h3>
         <div class="spacer"></div>
         <div class="editor__header__icon close" @click="close">
