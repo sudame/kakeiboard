@@ -1,5 +1,6 @@
 <template>
   <div id="login-page">
+    <loading></loading>
     <h1>kakeiboard</h1>
     <div class="login-panel">
       <div class="field">
@@ -28,9 +29,15 @@ import { getModule } from "vuex-module-decorators";
 
 import userModule, { User } from "~/store/user";
 
+import Loading from "~/components/Loading.vue";
+
 import _ from "lodash";
 
-@Component
+@Component({
+  components: {
+    Loading
+  }
+})
 export default class Login extends Vue {
   private email: string = "";
   private password: string = "";

@@ -1,6 +1,7 @@
 <template>
   <div class="global">
     <editor v-if="isEditing"></editor>
+    <loading></loading>
     <top-bar class="global__topbar">
       <template slot="label">kakeiboard</template>
       <template slot="action">
@@ -40,13 +41,15 @@ import TopBar from "../components/TopBar.vue";
 import MyButton from "../components/Button.vue";
 import MainPanel from "../components/Main.vue";
 import Editor from "~/components/Editor.vue";
+import Loading from "~/components/Loading.vue";
 
 @Component({
   components: {
     TopBar,
     MyButton,
     MainPanel,
-    Editor
+    Editor,
+    Loading
   }
 })
 export default class Index extends Vue {

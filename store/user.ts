@@ -1,6 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 import _ from 'lodash';
-import firebsae, { FirebaseError } from 'firebase';
 
 export class User {
   name: string;
@@ -18,6 +17,8 @@ export class User {
 export default class UserModule extends VuexModule {
   user: User | null = null;
 
+  isReady: boolean = true;
+
   @Mutation
   setUser(user: User | null) {
     this.user = user;
@@ -26,6 +27,11 @@ export default class UserModule extends VuexModule {
   @Mutation
   resetUser() {
     this.user = null;
+  }
+
+  @Mutation
+  finishReady() {
+    this.isReady = false;
   }
 
   get isLogined(): boolean {

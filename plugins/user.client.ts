@@ -15,6 +15,7 @@ export default ({ store }: { store: Store<any> }) => {
   let unsubscribe: firebase.Unsubscribe;
 
   firebase.auth().onAuthStateChanged(async (user: firebase.User | null) => {
+    userStore.finishReady();
     if (user !== null) {
       userStore.setUser(new User(
         user.displayName || '',
