@@ -1,7 +1,7 @@
 import { Store } from 'vuex';
 
 import { getModule } from "vuex-module-decorators";
-import ItemModule, { ItemState } from '~/store/items';
+import ItemModule, { ItemState, Item } from '~/store/items';
 
 import firebase from '~/plugins/firebase'
 
@@ -17,6 +17,20 @@ export default async (store: Store<any>, uid: string) => {
   return db.onSnapshot((dSnap) => {
     const data = dSnap.data();
     if (!data) return;
+
+    data[ItemState.WANT].forEach((item) => {
+      item.timestamp = item.timestamp ? (item.timestamp as firebase.firestore.Timestamp).toDate() : null;
+    });
+
+    data[ItemState.WILL].forEach((item) => {
+      item.timestamp = item.timestamp ? (item.timestamp as firebase.firestore.Timestamp).toDate() : null;
+    });
+
+    data[ItemState.DONE].forEach((item) => {
+      item.timestamp = item.timestamp ? (item.timestamp as firebase.firestore.Timestamp).toDate() : null;
+    });
+
+
     itemStore.loadFromFirestore({
       items: data[ItemState.WANT],
       state: ItemState.WANT

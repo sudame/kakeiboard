@@ -9,6 +9,7 @@ export enum ItemState {
 export interface Item {
   id: number;
   title: string;
+  timestamp: Date;
   price: number;
   state: ItemState;
 }

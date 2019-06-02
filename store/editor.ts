@@ -8,6 +8,7 @@ export default class RootStore extends VuexModule {
   editingItem: Item = {
     id: 0,
     price: 0,
+    timestamp: new Date(),
     state: ItemState.WANT,
     title: '',
   }
@@ -28,6 +29,7 @@ export default class RootStore extends VuexModule {
     this.editingItem = Object.assign({}, {
       id: 0,
       price: 0,
+      timestamp: new Date(),
       state: ItemState.WANT,
       title: '',
     });

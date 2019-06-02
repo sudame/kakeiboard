@@ -14,6 +14,10 @@
         <input type="text" name="title" id="title" class="input text" v-model="title">
       </div>
       <div class="field">
+        <label for="title" class="label">日付</label>
+        <datepicker v-model="timestamp" format="yyyy年MM月dd日" input-class="input datepicker"></datepicker>
+      </div>
+      <div class="field">
         <label for="price" class="label">価格</label>
         <input type="number" name="price" id="price" class="input text" v-model="price">
       </div>
@@ -32,14 +36,21 @@
 import { Component, Vue } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 
+import Datepicker from "vuejs-datepicker";
+
 import editorModule from "~/store/editor";
 import itemModule, { Item } from "~/store/items";
 
-@Component
+@Component({
+  components: {
+    Datepicker
+  }
+})
 export default class Editor extends Vue {
   private editorStore = getModule(editorModule, this.$store);
   private itemStore = getModule(itemModule, this.$store);
 
+  private timestamp: Date = this.item.timestamp;
   private title: string = this.item.title;
   private price: number = this.item.price;
 
@@ -56,6 +67,7 @@ export default class Editor extends Vue {
       id: this.item.id,
       title: this.title,
       price: this.price,
+      timestamp: this.timestamp,
       state: this.item.state
     });
     this.editorStore.toggleEditing();
@@ -66,6 +78,7 @@ export default class Editor extends Vue {
       id: this.itemStore.nextID,
       title: this.title,
       price: this.price,
+      timestamp: this.timestamp,
       state: this.item.state
     });
     this.editorStore.toggleEditing();
