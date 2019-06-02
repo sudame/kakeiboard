@@ -30,5 +30,8 @@
       "@nuxt/vue-app"
     ],
     "importHelpers": true,
-  }
+  },
+  "exclude": [
+    "./functions/**"
+  ]
 }
