@@ -33,7 +33,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/user.client.ts'
+    '~/plugins/user.client.ts',
+    { src: '~/plugins/localStorage.js', ssr: false }
   ],
 
   /*
