@@ -22,8 +22,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import firebase from "~/plugins/firebase";
+import { getModule } from "vuex-module-decorators";
+
+import userModule, { User } from "~/store/user";
+
 import _ from "lodash";
 
 @Component
@@ -31,12 +35,25 @@ export default class Login extends Vue {
   private email: string = "";
   private password: string = "";
 
+  private userStore = getModule(userModule, this.$store);
+
   async login() {
     const res = await firebase
       .auth()
       .signInWithEmailAndPassword(this.email, this.password);
     const user = res.user;
     if (!_.isEmpty(user)) {
+      this.$router.push("/");
+    }
+  }
+
+  get user() {
+    return this.userStore.user;
+  }
+
+  @Watch("user", { immediate: true })
+  onUserChanged(crr: User | null | {}, prev: User | null | {}) {
+    if (!_.isEmpty(crr)) {
       this.$router.push("/");
     }
   }
