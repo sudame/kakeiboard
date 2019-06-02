@@ -13,3 +13,76 @@ $background: #D2D2D2;
 @mixin elevation() {
   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
 }
+
+a {
+  color: $corp-2;
+  text-decoration: none;
+}
+
+/* forms */
+.field {
+  margin: 12px auto;
+
+  .label {
+    display: block;
+    font-size: 16px;
+    font-weight: bolder;
+    margin-bottom: 6px;
+  }
+
+  .input.text {
+    border: 1px solid $background;
+    line-height: 2em;
+    height: 4em;
+    width: 100%;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 14px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+
+    .button {
+      margin-right: 12px;
+    }
+
+    .button:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .input.button {
+    display: block;
+    padding: 6px 12px;
+    background-color: $corp-2;
+    color: white;
+    border: none;
+    font-size: 14px;
+    text-indent: 0.1em;
+    letter-spacing: 0.1em;
+    border-radius: 5px;
+  }
+
+  .input.button.danger {
+    background-color: $red;
+  }
+
+  &.right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  &.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & > * {
+      margin: 3px;
+    }
+  }
+}

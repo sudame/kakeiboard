@@ -123,58 +123,5 @@ export default class Editor extends Vue {
   }
 }
 
-.field {
-  margin: 12px auto;
-
-  .label {
-    display: block;
-    font-size: 16px;
-    font-weight: bolder;
-  }
-
-  .input.text {
-    border: 1px solid $background;
-    line-height: 2em;
-    height: 4em;
-    width: 100%;
-    border-radius: 5px;
-    padding: 0.5em;
-    font-size: 14px;
-  }
-
-  .buttons {
-    display: flex;
-    flex-direction: row;
-
-    .button {
-      margin-right: 12px;
-    }
-
-    .button:last-child {
-      margin-right: 0;
-    }
-  }
-
-  .input.button {
-    display: block;
-    padding: 6px 12px;
-    background-color: $corp-2;
-    color: white;
-    border: none;
-    font-size: 14px;
-    text-indent: 1.5px;
-    letter-spacing: 3px;
-    border-radius: 5px;
-  }
-
-  .input.button.danger {
-    background-color: $red;
-  }
-
-  &.right {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-}
+/* フォームのスタイルは main.scss に統合 */
 </style>
