@@ -6,7 +6,7 @@
           <slot name="label"></slot>
         </h1>
         <div class="space"></div>
-        <div>
+        <div class="topbar__actions">
           <slot name="action"></slot>
         </div>
       </div>
@@ -42,6 +42,11 @@ h1 {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.topbar__actions {
+  display: flex;
+  flex-direction: row;
 }
 
 .space {

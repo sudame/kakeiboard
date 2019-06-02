@@ -10,12 +10,22 @@
         <label for="password" class="label">パスワード</label>
         <input type="password" class="input text" id="password" name="password" v-model="password">
       </div>
-      <div class="field right">
-        <button class="input button" @click="login">ログイン</button>
+      <div class="field">
+        <label for="password-conf" class="label">パスワード(確認)</label>
+        <input
+          type="password"
+          class="input text"
+          id="password-conf"
+          name="password-conf"
+          v-model="passwordconf"
+        >
       </div>
-      <div class="field center">
-        <nuxt-link to="/signup">新規登録</nuxt-link>
-        <a href="#">パスワードを忘れた場合</a>
+      <div class="field">
+        <label for="username" class="label">お名前</label>
+        <input type="text" class="input text" id="username" name="username" v-model="username">
+      </div>
+      <div class="field right">
+        <button class="input button" @click="signup">登録</button>
       </div>
     </div>
   </div>
@@ -24,19 +34,41 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import firebase from "~/plugins/firebase";
+import { getModule } from "vuex-module-decorators";
 import _ from "lodash";
+
+import userModule, { User } from "~/store/user";
 
 @Component
 export default class Login extends Vue {
   private email: string = "";
   private password: string = "";
+  private passwordconf: string = "";
+  private username: string = "";
 
-  async login() {
+  private passwordsNotMatch: boolean = false;
+
+  private userStore = getModule(userModule, this.$store);
+
+  async signup() {
+    if (this.password !== this.passwordconf) {
+      this.passwordsNotMatch = true;
+      return;
+    }
+    this.passwordsNotMatch = false;
+
     const res = await firebase
       .auth()
-      .signInWithEmailAndPassword(this.email, this.password);
+      .createUserWithEmailAndPassword(this.email, this.password);
     const user = res.user;
+    if (user === null) return;
+    await user.updateProfile({
+      displayName: this.username
+    });
     if (!_.isEmpty(user)) {
+      this.userStore.setUser(
+        new User(user.displayName || "", user.uid, user.email || "")
+      );
       this.$router.push("/");
     }
   }

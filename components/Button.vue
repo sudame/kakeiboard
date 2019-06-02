@@ -1,5 +1,5 @@
 <template >
-  <button-base class="button">
+  <button-base class="button" :danger="danger">
     <div class="icon">
       <slot name="icon"></slot>
     </div>
@@ -9,16 +9,18 @@
   </button-base>
 </template>
 
-<script>
-import { Component, Vue } from "vue-property-decorator";
-import ButtonBase from "./bases/ButtonBase";
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
+import ButtonBase from "./bases/ButtonBase.vue";
 
 @Component({
   components: {
     ButtonBase
   }
 })
-export default class KButton extends Vue {}
+export default class KButton extends Vue {
+  @Prop(Boolean) readonly danger!: boolean;
+}
 </script>
 
 <style lang="scss" scoped>
