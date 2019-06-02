@@ -80,6 +80,12 @@ export default class ItemsStore extends VuexModule {
     this.uid = uid;
   }
 
+  @Mutation
+  resetAll() {
+    this[ItemState.WANT] = this[ItemState.WILL] = this[ItemState.DONE] = [];
+    this.uid = null;
+  }
+
   get prices(): Prices {
 
     // getterからクラスインスタンスのメソッドにアクセスできない

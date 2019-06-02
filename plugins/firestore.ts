@@ -5,11 +5,16 @@ import ItemModule, { ItemState } from '~/store/items';
 
 import firebase from '~/plugins/firebase'
 
-export default (store: Store<any>, uid: string) => {
+export default async (store: Store<any>, uid: string) => {
+  console.log('[UID]', uid);
+  console.log('[CURRENT USER]', (firebase.auth().currentUser as firebase.User).uid);
   const itemStore = getModule(ItemModule, store);
   const db = firebase.firestore().collection('items').doc(uid);
 
-  db.onSnapshot((dSnap) => {
+  // 存在チェック(初回に必要)
+  await checkExist(db);
+
+  return db.onSnapshot((dSnap) => {
     const data = dSnap.data();
     if (!data) return;
     itemStore.loadFromFirestore({
@@ -26,3 +31,25 @@ export default (store: Store<any>, uid: string) => {
     });
   })
 };
+
+const checkExist = async (db: firebase.firestore.DocumentReference) => {
+  return new Promise((resolve, reject) => {
+    let counter: number = 0;
+    const timeout: NodeJS.Timeout = setInterval(() => {
+      db.get().then((q) => {
+        console.log(q.exists);
+        if (q.exists) {
+          clearInterval(timeout);
+          resolve();
+        }
+      }).catch((e) => {
+        console.log(e.code);
+        console.log(counter);
+        if (++counter > 10) {
+          reject();
+          clearInterval(timeout);
+        }
+      });
+    }, 500);
+  });
+}
